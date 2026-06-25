@@ -183,6 +183,14 @@ const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto
 // link: URL de la tienda (opcional)
 // =============================================
 const games = {
+ '2026-06-25': [
+  {title:'DEAD OR ALIVE 6 Last Round', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4144680/e94fe79e24de4c1488f1967f13144c6df66b5b51/header.jpg?t=1782364231', free:false, link:'https://store.steampowered.com/app/4144680/'},
+  {title:'Star Fox', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc11a.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Juegos-de-Nintendo-Switch-2/Star-Fox-3094728.html'},
+  {title:'KIYO Bunny Tyranny', platforms:['pc', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2466790/f48cf9f42a61956979e99b69c5213b2928a6afed/header.jpg?t=1782395721', free:false, link:'https://store.steampowered.com/app/2466790/KIYO__Bunny_Tyranny/'},
+  {title:'Citizen Sleeper 2: Starward Vector', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2442460/header.jpg?t=1782403325', free:false, link:'https://www.nintendo.com/es-es/Juegos/Nintendo-Switch-2-Edition/Citizen-Sleeper-2-Starward-Vector-Nintendo-Switch-2-Edition-3116399.html'},
+  {title:'RACE Rocket Arena Car Extreme', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co66dt.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/RACE-Rocket-Arena-Car-Extreme-3092336.html?srsltid=AfmBOor1mkUy3sJJj8L7VPPI8PXkuwHnQ5CYSHm65yMyVXYPG9CNpefX'}
+ ],
+
 
   '2026-11-19': [
 {title:'Grand Theft Auto VI', platforms:['ps5', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cocaa5.webp', free:false, link:'https://www.rockstargames.com/VI'} 
@@ -231,7 +239,6 @@ const games = {
     ],
 
  '2026-06-19': [
-{title:'Star Fox', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc11a.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Juegos-de-Nintendo-Switch-2/Star-Fox-3094728.html'},
 {title:'EA Sports UFC 6', platforms:['ps5', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc447.webp', free:false, link:'https://www.ea.com/es/games/ufc/ufc-6'}
 ],
 
@@ -503,6 +510,7 @@ renderCalendar();
   Sígueme en <a href="https://www.instagram.com/ofertasspeedrun" target="_blank">Instagram</a> ·
   <a href="https://www.tiktok.com/@ofertasspeedrun" target="_blank">TikTok</a> ·
   <a href="https://twitch.tv/varsynn" target="_blank">Twitch</a>
+  <div id="visit-counter" style="margin-top:8px; color:#444; font-size:12px;"></div>
 </div>
 
 <script>
@@ -579,6 +587,22 @@ function updateCountdowns() {
 
 renderFreeNow();
 setInterval(updateCountdowns, 1000);
+
+// =============================================
+// CONTADOR DE VISITAS GLOBAL (sin servidor propio)
+// Usa CountAPI (countapi.xyz), un servicio gratuito de contadores online.
+// "ofertasspeedrun-calendario" es el nombre único de tu contador:
+// si lo cambias, el contador empezará de cero.
+// =============================================
+fetch('https://api.countapi.xyz/hit/ofertasspeedrun/calendario')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('visit-counter').textContent = '👀 ' + data.value.toLocaleString('es-ES') + ' visitas totales';
+  })
+  .catch(() => {
+    document.getElementById('visit-counter').textContent = '';
+  });
+
 </script>
 </body>
 </html>
