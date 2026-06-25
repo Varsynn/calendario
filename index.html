@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,11 +17,11 @@
   .filters span { font-size: 13px; color: #666; }
   .filter-btn { border: 1px solid #333; border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; background: #1e1e1e; color: #aaa; transition: all 0.15s; }
   .filter-btn:hover { border-color: #555; color: #fff; }
-  .filter-btn.active-pc { background: #0d3a6e; color: #85B7EB; border-color: #378ADD; }
-  .filter-btn.active-ps5 { background: #2a1f6e; color: #AFA9EC; border-color: #7F77DD; }
+  .filter-btn.active-pc { background: #000000; color: #e0e0e0; border-color: #555; }
+  .filter-btn.active-ps5 { background: #0a2a6e; color: #8FB8F0; border-color: #1E5BC6; }
   .filter-btn.active-xbox { background: #1a3a0a; color: #97C459; border-color: #639922; }
-  .filter-btn.active-switch { background: #5a1a08; color: #F0997B; border-color: #D85A30; }
-  .filter-btn.active-ps4 { background: #3a1040; color: #d090f0; border-color: #9040c0; }
+  .filter-btn.active-switch { background: #4a0a0a; color: #FF8A8A; border-color: #E60012; }
+  .filter-btn.active-alquiler { background: #3a3a3a; color: #ffffff; border-color: #ffffff; }
   .week-block { margin-bottom: 1.25rem; }
   .week-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #222; }
   .days-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
@@ -36,11 +35,11 @@
   .game-title { font-size: 9px; color: #ccc; line-height: 1.3; }
   .platform-dots { display: flex; gap: 2px; padding: 2px 4px; background: #1a1a1a; }
   .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .dot-pc { background: #378ADD; }
-  .dot-ps5 { background: #7F77DD; }
-  .dot-ps4 { background: #9040c0; }
+  .dot-pc { background: #000000; border: 1px solid #555; }
+  .dot-ps5 { background: #1E5BC6; }
   .dot-xbox { background: #639922; }
-  .dot-switch { background: #D85A30; }
+  .dot-switch { background: #E60012; }
+  .dot-alquiler { background: #ffffff; }
   .dot-free { background: #e8c33a; }
   .badge-free { font-size: 8px; background: #3a3000; color: #e8c33a; border-radius: 3px; padding: 1px 3px; display: inline-block; margin-top: 2px; }
   .no-games { font-size: 10px; color: #444; text-align: center; padding-top: 10px; }
@@ -70,17 +69,17 @@
   <span>Filtrar por plataforma:</span>
   <button class="filter-btn" id="btn-pc" onclick="toggleFilter('pc')">💻 PC</button>
   <button class="filter-btn" id="btn-ps5" onclick="toggleFilter('ps5')">🎮 PS5</button>
-  <button class="filter-btn" id="btn-ps4" onclick="toggleFilter('ps4')">🎮 PS4</button>
   <button class="filter-btn" id="btn-xbox" onclick="toggleFilter('xbox')">🟢 Xbox</button>
   <button class="filter-btn" id="btn-switch" onclick="toggleFilter('switch')">🔴 Switch</button>
+  <button class="filter-btn" id="btn-alquiler" onclick="toggleFilter('alquiler')">⚪ Alquiler</button>
 </div>
 
 <div class="legend">
   <div class="legend-item"><span class="dot dot-pc"></span> PC</div>
   <div class="legend-item"><span class="dot dot-ps5"></span> PS5</div>
-  <div class="legend-item"><span class="dot dot-ps4"></span> PS4</div>
   <div class="legend-item"><span class="dot dot-xbox"></span> Xbox</div>
   <div class="legend-item"><span class="dot dot-switch"></span> Switch</div>
+  <div class="legend-item"><span class="dot dot-alquiler"></span> Alquiler</div>
   <div class="legend-item"><span class="dot dot-free"></span> Gratis</div>
 </div>
 
@@ -99,7 +98,7 @@ const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto
 // =============================================
 // AQUÍ AÑADES TUS JUEGOS
 // Formato: 'YYYY-MM-DD': [{title, platforms, img, free, link}]
-// platforms: array con 'pc','ps5','ps4','xbox','switch'
+// platforms: array con 'pc','ps5','xbox','switch','alquiler'
 // free: true si es gratis
 // img: URL de la imagen (portada del juego)
 // link: URL de la tienda (opcional)
@@ -128,7 +127,7 @@ function toggleFilter(p) {
 }
 
 function updateFilterButtons() {
-  ['pc','ps5','ps4','xbox','switch'].forEach(p => {
+  ['pc','ps5','xbox','switch','alquiler'].forEach(p => {
     const btn = document.getElementById('btn-'+p);
     if (!btn) return;
     btn.className = 'filter-btn' + (activeFilters.has(p) ? ' active-'+p : '');
