@@ -14,6 +14,8 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 1rem; }
+  .header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0; }
+  .visit-counter { font-size: 14px; color: #888; text-align: right; padding-top: 4px; white-space: nowrap; font-weight: 500; }
   h1 { font-size: 1.3rem; font-weight: 500; margin-bottom: 0.25rem; color: #fff; }
   .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.25rem; }
   .month-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
@@ -117,8 +119,13 @@
 </head>
 <body>
 
-<h1>📅 Calendario de Lanzamientos</h1>
-<p class="subtitle">ofertasspeedrun · Actualizado semanalmente</p>
+<div class="header-row">
+  <div>
+    <h1>📅 Calendario de Lanzamientos</h1>
+    <p class="subtitle">ofertasspeedrun · Actualizado semanalmente</p>
+  </div>
+  <div id="visit-counter" class="visit-counter"></div>
+</div>
  <div class="social-links">
   <a href="https://www.instagram.com/ofertasspeedrun" target="_blank" aria-label="Instagram">
     <i class="fab fa-instagram"></i>
@@ -187,8 +194,23 @@ const games = {
   {title:'DEAD OR ALIVE 6 Last Round', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4144680/e94fe79e24de4c1488f1967f13144c6df66b5b51/header.jpg?t=1782364231', free:false, link:'https://store.steampowered.com/app/4144680/'},
   {title:'Star Fox', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc11a.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Juegos-de-Nintendo-Switch-2/Star-Fox-3094728.html'},
   {title:'KIYO Bunny Tyranny', platforms:['pc', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2466790/f48cf9f42a61956979e99b69c5213b2928a6afed/header.jpg?t=1782395721', free:false, link:'https://store.steampowered.com/app/2466790/KIYO__Bunny_Tyranny/'},
+  {title:'Citizen Sleeper', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1578650/header.jpg', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/Citizen-Sleeper-2118644.html'},
   {title:'Citizen Sleeper 2: Starward Vector', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2442460/header.jpg?t=1782403325', free:false, link:'https://www.nintendo.com/es-es/Juegos/Nintendo-Switch-2-Edition/Citizen-Sleeper-2-Starward-Vector-Nintendo-Switch-2-Edition-3116399.html'},
-  {title:'RACE Rocket Arena Car Extreme', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co66dt.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/RACE-Rocket-Arena-Car-Extreme-3092336.html?srsltid=AfmBOor1mkUy3sJJj8L7VPPI8PXkuwHnQ5CYSHm65yMyVXYPG9CNpefX'}
+  {title:'RACE Rocket Arena Car Extreme', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co66dt.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/RACE-Rocket-Arena-Car-Extreme-3092336.html'}
+ ],
+
+ '2026-06-27': [
+  {title:'Acorn Avengers', platforms:['pc', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9vwb.webp', free:false, link:'https://www.xbox.com/es-ES/games/store/acorn-avengers/'},
+  {title:'Cash Movers', platforms:['ps5', 'switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9v3y.webp', free:false, link:'https://www.nintendo.com/es-es/'}
+ ],
+
+ '2026-06-26': [
+  {title:'Death Run', platforms:['xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9x2a.webp', free:false, link:'https://www.xbox.com/es-ES/'},
+  {title:'Word Quest Nature X', platforms:['pc', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9v8r.webp', free:false, link:'https://www.xbox.com/es-ES/'},
+  {title:'Acorn Avengers', platforms:['ps5'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9vwb.webp', free:false, link:'https://store.playstation.com/es-es/'},
+  {title:'WWE 2K25: WrestleMania 41 Pack', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2669590/header.jpg', free:false, link:'https://store.steampowered.com/app/2669590/'},
+  {title:'Axel Quest', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3824740/header.jpg', free:false, link:'https://store.steampowered.com/app/3824740/Axel_Quest/'},
+  {title:'Wild West Supermarket Simulator', platforms:['ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3690760/header.jpg', free:false, link:'https://store.steampowered.com/app/3690760/Wild_West_Supermarket_Simulator/'}
  ],
 
 
@@ -265,6 +287,28 @@ const games = {
  '2026-06-05': [
 {title:'Gothic 1 Remake', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1297900/6bc8c205a107e552f14631524f25cdf88743515a/header.jpg?t=1782140243', free:false, link:'https://store.steampowered.com/app/1297900/Gothic_1_Remake/'}  
 ],
+
+ '2026-06-03': [
+  {title:'Final Fantasy VII Rebirth', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2909400/header.jpg', free:false, link:'https://www.nintendo.com/es-es/Juegos/Juegos-de-Nintendo-Switch-2/FINAL-FANTASY-VII-REBIRTH-3016562.html'},
+  {title:'PROHIBEAST', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3503790/dc9b4b24554f276600a69b6ab54e289c96437d95/header.jpg?t=1780495285', free:false, link:'https://store.steampowered.com/app/3503790/PROHIBEAST/'}
+ ],
+
+ '2026-06-02': [
+  {title:'Fatekeeper', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2186990/4a98bac064656da89ddf8dedee1acd39405cac14/header_alt_assets_0.jpg?t=1780927614', free:false, link:'https://store.steampowered.com/app/2186990/Fatekeeper/'},
+  {title:'Battleship Command', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3367430/2c8d2e16f2fbf8b42c812c415f2c095b6d7f0390/header.jpg?t=1782399866', free:false, link:'https://store.steampowered.com/app/3367430/Battleship_Command/'},
+  {title:'Campsite Hustle! Management Simulator', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3708070/dd3c9bb906ff26e670b6c53a183e7e36f0828e5c/header.jpg?t=1780419637', free:false, link:'https://store.steampowered.com/app/3708070/Campsite_Hustle__Management_Simulator/'},
+  {title:'Hobby Horse', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3219140/header.jpg?t=1780907510', free:false, link:'https://store.steampowered.com/app/3219140/Hobby_Horse/'},
+  {title:'OddFauna Secret of the Terranauts', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1525290/d424b0c5dd1e97142a2275f2f1c453f557a5ea7e/header.jpg?t=1781035010', free:false, link:'https://store.steampowered.com/app/1525290/OddFauna__Secret_of_the_Terrabeast/'},
+  {title:'Tallowmere 2 Curse of the Kittens', platforms:['ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/655740/header.jpg?t=1760225131', free:false, link:'https://store.playstation.com/es-es/product/EP1411-PPSA37526_00-0389890193491824'},
+  {title:'Tale of Dark Lands', platforms:['ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3475860/header.jpg?t=1760137449', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/Tale-of-Dark-Lands-3103549.html?srsltid=AfmBOopilGuJrJDvOOLNaUsJ4crkrUA5ttjstdWlXNOSX4YE-xzA6DhG'},
+  {title:'Perfect Ninja Painter 4', platforms:['ps5', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc2wv.webp', free:false, link:'https://store.playstation.com/es-es/product/EB0014-PPSA37449_00-0552749163885326'},
+  {title:'Fortune Mill', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4731620/5a99f3ec0fa5a7b11d434d847b92131884e6ad93/header.jpg?t=1782064634', free:false, link:'https://store.steampowered.com/app/4731620/Fortune_Mill/'},
+  {title:'Springbot: The Last Spark', platforms:['ps5', 'xbox', 'switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coc59f.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/Springbot-The-Last-Spark-3108730.html?srsltid=AfmBOoowtdnkrXk1QMTD_Yo728E1R9xrhIYgJlJ_SPXhMMLbwy52T2a6'}
+ ],
+
+  '2026-06-03': [
+     {title:'Metal Shoot', platforms:['ps5'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cobftj.webp', free:false, link:'https://store.playstation.com/es-es/product/EB1103-PPSA37990_00-0746435053871155'}
+ ],
 
 };
 
@@ -510,7 +554,7 @@ renderCalendar();
   Sígueme en <a href="https://www.instagram.com/ofertasspeedrun" target="_blank">Instagram</a> ·
   <a href="https://www.tiktok.com/@ofertasspeedrun" target="_blank">TikTok</a> ·
   <a href="https://twitch.tv/varsynn" target="_blank">Twitch</a>
-  <div id="visit-counter" style="margin-top:8px; color:#444; font-size:12px;"></div>
+  <div id="visit-counter-footer" style="display:none"></div>
 </div>
 
 <script>
@@ -589,15 +633,16 @@ renderFreeNow();
 setInterval(updateCountdowns, 1000);
 
 // =============================================
-// CONTADOR DE VISITAS GLOBAL (sin servidor propio)
-// Usa CountAPI (countapi.xyz), un servicio gratuito de contadores online.
-// "ofertasspeedrun-calendario" es el nombre único de tu contador:
-// si lo cambias, el contador empezará de cero.
+// CONTADOR DE VISITAS GLOBAL
+// Usa counterapi.dev, servicio gratuito sucesor de countapi.xyz
 // =============================================
-fetch('https://api.countapi.xyz/hit/ofertasspeedrun/calendario')
+fetch('https://api.counterapi.dev/v1/ofertasspeedrun/calendario/up')
   .then(res => res.json())
   .then(data => {
-    document.getElementById('visit-counter').textContent = '👀 ' + data.value.toLocaleString('es-ES') + ' visitas totales';
+    const val = data.count ?? data.value ?? null;
+    if (val !== null) {
+      document.getElementById('visit-counter').textContent = '👀 ' + Number(val).toLocaleString('es-ES') + ' visitas';
+    }
   })
   .catch(() => {
     document.getElementById('visit-counter').textContent = '';
