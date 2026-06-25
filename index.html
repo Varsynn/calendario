@@ -1,1 +1,267 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendario de Lanzamientos – ofertasspeedrun</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 1rem; }
+  h1 { font-size: 1.3rem; font-weight: 500; margin-bottom: 0.25rem; color: #fff; }
+  .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.25rem; }
+  .month-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .month-title { font-size: 1.1rem; font-weight: 500; color: #fff; flex: 1; }
+  .nav-btn { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 5px 14px; cursor: pointer; font-size: 14px; color: #aaa; }
+  .nav-btn:hover { background: #2a2a2a; color: #fff; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; align-items: center; }
+  .filters span { font-size: 13px; color: #666; }
+  .filter-btn { border: 1px solid #333; border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; background: #1e1e1e; color: #aaa; transition: all 0.15s; }
+  .filter-btn:hover { border-color: #555; color: #fff; }
+  .filter-btn.active-pc { background: #0d3a6e; color: #85B7EB; border-color: #378ADD; }
+  .filter-btn.active-ps5 { background: #2a1f6e; color: #AFA9EC; border-color: #7F77DD; }
+  .filter-btn.active-xbox { background: #1a3a0a; color: #97C459; border-color: #639922; }
+  .filter-btn.active-switch { background: #5a1a08; color: #F0997B; border-color: #D85A30; }
+  .filter-btn.active-ps4 { background: #3a1040; color: #d090f0; border-color: #9040c0; }
+  .week-block { margin-bottom: 1.25rem; }
+  .week-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #222; }
+  .days-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .day-cell { border: 1px solid #222; border-radius: 8px; padding: 6px; min-height: 90px; background: #1a1a1a; }
+  .day-cell.empty { background: #111; border-color: transparent; }
+  .day-name { font-size: 10px; color: #555; margin-bottom: 2px; }
+  .day-num { font-size: 11px; color: #666; margin-bottom: 5px; }
+  .game-card { border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+  .game-card img { width: 100%; height: 40px; object-fit: cover; display: block; }
+  .game-info { background: #222; padding: 2px 4px; }
+  .game-title { font-size: 9px; color: #ccc; line-height: 1.3; }
+  .platform-dots { display: flex; gap: 2px; padding: 2px 4px; background: #1a1a1a; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot-pc { background: #378ADD; }
+  .dot-ps5 { background: #7F77DD; }
+  .dot-ps4 { background: #9040c0; }
+  .dot-xbox { background: #639922; }
+  .dot-switch { background: #D85A30; }
+  .dot-free { background: #e8c33a; }
+  .badge-free { font-size: 8px; background: #3a3000; color: #e8c33a; border-radius: 3px; padding: 1px 3px; display: inline-block; margin-top: 2px; }
+  .no-games { font-size: 10px; color: #444; text-align: center; padding-top: 10px; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #666; }
+  .footer { margin-top: 2rem; font-size: 12px; color: #444; text-align: center; }
+  .footer a { color: #555; }
+  @media (max-width: 600px) {
+    .day-cell { min-height: 70px; padding: 4px; }
+    .game-card img { height: 30px; }
+    .game-title { font-size: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>📅 Calendario de Lanzamientos</h1>
+<p class="subtitle">ofertasspeedrun · Actualizado semanalmente</p>
+
+<div class="month-nav">
+  <button class="nav-btn" onclick="changeMonth(-1)">&#8592;</button>
+  <span class="month-title" id="month-title"></span>
+  <button class="nav-btn" onclick="changeMonth(1)">&#8594;</button>
+</div>
+
+<div class="filters">
+  <span>Filtrar por plataforma:</span>
+  <button class="filter-btn" id="btn-pc" onclick="toggleFilter('pc')">💻 PC</button>
+  <button class="filter-btn" id="btn-ps5" onclick="toggleFilter('ps5')">🎮 PS5</button>
+  <button class="filter-btn" id="btn-ps4" onclick="toggleFilter('ps4')">🎮 PS4</button>
+  <button class="filter-btn" id="btn-xbox" onclick="toggleFilter('xbox')">🟢 Xbox</button>
+  <button class="filter-btn" id="btn-switch" onclick="toggleFilter('switch')">🔴 Switch</button>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot dot-pc"></span> PC</div>
+  <div class="legend-item"><span class="dot dot-ps5"></span> PS5</div>
+  <div class="legend-item"><span class="dot dot-ps4"></span> PS4</div>
+  <div class="legend-item"><span class="dot dot-xbox"></span> Xbox</div>
+  <div class="legend-item"><span class="dot dot-switch"></span> Switch</div>
+  <div class="legend-item"><span class="dot dot-free"></span> Gratis</div>
+</div>
+
+<div id="calendar"></div>
+
+<div class="footer">
+  Sígueme en <a href="https://www.instagram.com/ofertasspeedrun" target="_blank">Instagram</a> · 
+  <a href="https://www.tiktok.com/@ofertasspeedrun" target="_blank">TikTok</a> · 
+  <a href="https://twitch.tv/varsynn" target="_blank">Twitch</a>
+</div>
+
+<script>
+const DAYS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// =============================================
+// AQUÍ AÑADES TUS JUEGOS
+// Formato: 'YYYY-MM-DD': [{title, platforms, img, free, link}]
+// platforms: array con 'pc','ps5','ps4','xbox','switch'
+// free: true si es gratis
+// img: URL de la imagen (portada del juego)
+// link: URL de la tienda (opcional)
+// =============================================
+const games = {
+  '2026-06-02': [
+    {title:'Elden Ring Nightreign', platforms:['pc','ps5','xbox'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2622380/header.jpg', free:false, link:'https://store.steampowered.com/app/2622380/'}
+  ],
+  '2026-06-03': [
+    {title:'Borderlands 4', platforms:['pc','ps5','xbox'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/1690600/header.jpg', free:false, link:'https://store.steampowered.com/app/1690600/'}
+  ],
+  '2026-06-05': [
+    {title:'Deer & Boy', platforms:['pc','ps5','xbox','switch'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2526960/header.jpg', free:false, link:'https://store.steampowered.com/app/2526960/'}
+  ],
+};
+
+let currentYear = 2026;
+let currentMonth = 5;
+let activeFilters = new Set();
+
+function toggleFilter(p) {
+  if (activeFilters.has(p)) activeFilters.delete(p);
+  else activeFilters.add(p);
+  updateFilterButtons();
+  renderCalendar();
+}
+
+function updateFilterButtons() {
+  ['pc','ps5','ps4','xbox','switch'].forEach(p => {
+    const btn = document.getElementById('btn-'+p);
+    if (!btn) return;
+    btn.className = 'filter-btn' + (activeFilters.has(p) ? ' active-'+p : '');
+  });
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  renderCalendar();
+}
+
+function getFirstDayOfWeek(year, month) {
+  let d = new Date(year, month, 1).getDay();
+  return d === 0 ? 6 : d - 1;
+}
+
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function gameMatchesFilter(game) {
+  if (activeFilters.size === 0) return true;
+  return game.platforms.some(p => activeFilters.has(p));
+}
+
+function renderCalendar() {
+  document.getElementById('month-title').textContent = MONTHS[currentMonth] + ' ' + currentYear;
+  const cal = document.getElementById('calendar');
+  cal.innerHTML = '';
+
+  const firstDay = getFirstDayOfWeek(currentYear, currentMonth);
+  const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+
+  let day = 1 - firstDay;
+  while (day <= daysInMonth) {
+    const weekBlock = document.createElement('div');
+    weekBlock.className = 'week-block';
+
+    const startDay = Math.max(day, 1);
+    const endDay = Math.min(day + 6, daysInMonth);
+    const startDayName = DAYS[Math.max(day,1) - day];
+    const endDayName = DAYS[Math.min(day+6, daysInMonth) - day];
+
+    const label = document.createElement('div');
+    label.className = 'week-label';
+    label.textContent = startDayName + ' ' + startDay + ' – ' + endDayName + ' ' + endDay;
+    weekBlock.appendChild(label);
+
+    const row = document.createElement('div');
+    row.className = 'days-row';
+
+    for (let i = 0; i < 7; i++) {
+      const d = day + i;
+      const cell = document.createElement('div');
+
+      if (d < 1 || d > daysInMonth) {
+        cell.className = 'day-cell empty';
+      } else {
+        cell.className = 'day-cell';
+
+        const dayName = document.createElement('div');
+        dayName.className = 'day-name';
+        dayName.textContent = DAYS[i];
+        cell.appendChild(dayName);
+
+        const dayNum = document.createElement('div');
+        dayNum.className = 'day-num';
+        dayNum.textContent = d;
+        cell.appendChild(dayNum);
+
+        const dateKey = currentYear + '-' + pad(currentMonth+1) + '-' + pad(d);
+        const dayGames = games[dateKey] || [];
+        const filtered = dayGames.filter(gameMatchesFilter);
+
+        if (filtered.length === 0 && dayGames.length > 0 && activeFilters.size > 0) {
+          const ng = document.createElement('div');
+          ng.className = 'no-games';
+          ng.textContent = '—';
+          cell.appendChild(ng);
+        } else {
+          filtered.forEach(g => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            if (g.link) { card.style.cursor = 'pointer'; card.onclick = () => window.open(g.link,'_blank'); }
+
+            if (g.img) {
+              const img = document.createElement('img');
+              img.src = g.img;
+              img.alt = g.title;
+              img.onerror = function(){ this.style.display='none'; };
+              card.appendChild(img);
+            }
+
+            const info = document.createElement('div');
+            info.className = 'game-info';
+            const title = document.createElement('div');
+            title.className = 'game-title';
+            title.textContent = g.title;
+            info.appendChild(title);
+            if (g.free) {
+              const badge = document.createElement('span');
+              badge.className = 'badge-free';
+              badge.textContent = 'GRATIS';
+              info.appendChild(badge);
+            }
+            card.appendChild(info);
+
+            const dots = document.createElement('div');
+            dots.className = 'platform-dots';
+            g.platforms.forEach(p => {
+              const dot = document.createElement('span');
+              dot.className = 'dot dot-'+p;
+              dot.title = p.toUpperCase();
+              dots.appendChild(dot);
+            });
+            card.appendChild(dots);
+            cell.appendChild(card);
+          });
+        }
+      }
+      row.appendChild(cell);
+    }
+    weekBlock.appendChild(row);
+    cal.appendChild(weekBlock);
+    day += 7;
+  }
+}
+
+renderCalendar();
+</script>
+</body>
+</html>
