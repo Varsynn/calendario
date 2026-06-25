@@ -21,7 +21,6 @@
   .filter-btn.active-ps5 { background: #0a2a6e; color: #8FB8F0; border-color: #1E5BC6; }
   .filter-btn.active-xbox { background: #1a3a0a; color: #97C459; border-color: #639922; }
   .filter-btn.active-switch { background: #4a0a0a; color: #FF8A8A; border-color: #E60012; }
-  .filter-btn.active-alquiler { background: #3a3a3a; color: #ffffff; border-color: #ffffff; }
   .week-block { margin-bottom: 1.25rem; }
   .week-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #222; }
   .days-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
@@ -39,7 +38,7 @@
   .dot-ps5 { background: #1E5BC6; }
   .dot-xbox { background: #639922; }
   .dot-switch { background: #E60012; }
-  .dot-alquiler { background: #ffffff; }
+ 
   .dot-free { background: #e8c33a; }
   .badge-free { font-size: 8px; background: #3a3000; color: #e8c33a; border-radius: 3px; padding: 1px 3px; display: inline-block; margin-top: 2px; }
   .no-games { font-size: 10px; color: #444; text-align: center; padding-top: 10px; }
@@ -139,7 +138,7 @@ const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto
 // =============================================
 // AQUÍ AÑADES TUS JUEGOS
 // Formato: 'YYYY-MM-DD': [{title, platforms, img, free, link}]
-// platforms: array con 'pc','ps5','xbox','switch','alquiler'
+// platforms: array con 'pc','ps5','xbox','switch'
 // free: true si es gratis
 // img: URL de la imagen (portada del juego)
 // link: URL de la tienda (opcional)
@@ -154,7 +153,7 @@ const games = {
   {title:'Copa City', platforms:['pc'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2210520/header.jpg', free:false, link:'https://store.steampowered.com/app/2210520/'},
 ],
 '2026-06-17': [
-  {title:'Zenless Zone Zero', platforms:['pc','alquiler'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4162040/be0ca488708c4eda6668b031a99880dfd250de92/header.jpg?t=1781647256', free:true, link:'https://store.steampowered.com/app/4162040/'}, // <-- falta esta coma
+  {title:'Zenless Zone Zero', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4162040/be0ca488708c4eda6668b031a99880dfd250de92/header.jpg?t=1781647256', free:true, link:'https://store.steampowered.com/app/4162040/'}, // <-- falta esta coma
   {title:'Gloria Victis', platforms:['pc'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/327070/header.jpg', free:false, link:'https://store.steampowered.com/app/327070/'},
   {title:'Prologue: Go Wayback!', platforms:['pc'], img:'https://cdn.cloudflare.steamstatic.com/steam/apps/2943740/header.jpg', free:true, link:'https://store.steampowered.com/app/2943740/'}, 
 ],
@@ -178,7 +177,7 @@ function toggleFilter(p) {
 }
 
 function updateFilterButtons() {
-  ['pc','ps5','xbox','switch','alquiler'].forEach(p => {
+  ['pc','ps5','xbox','switch'].forEach(p => {
     const btn = document.getElementById('btn-'+p);
     if (!btn) return;
     btn.className = 'filter-btn' + (activeFilters.has(p) ? ' active-'+p : '');
