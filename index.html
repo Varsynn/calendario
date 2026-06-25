@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calendario de Lanzamientos – ofertasspeedrun</title>
+<meta name="description" content="Calendario semanal de lanzamientos de videojuegos para PC, PS5, Xbox y Switch, con juegos gratis destacados de Steam y Epic Games.">
+<meta property="og:title" content="Calendario de Lanzamientos – ofertasspeedrun">
+<meta property="og:description" content="Consulta los próximos lanzamientos de videojuegos por plataforma y entérate de qué juegos están gratis ahora mismo.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="PON_AQUI_LA_URL_DE_TU_IMAGEN_DE_PORTADA">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 1rem; }
@@ -17,6 +24,9 @@
   .filters span { font-size: 13px; color: #666; }
   .filter-btn { border: 1px solid #333; border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; background: #1e1e1e; color: #aaa; transition: all 0.15s; }
   .filter-btn:hover { border-color: #555; color: #fff; }
+  .search-input { margin-left: auto; background: #1e1e1e; border: 1px solid #333; border-radius: 20px; padding: 5px 14px; font-size: 13px; color: #ddd; min-width: 160px; }
+  .search-input::placeholder { color: #666; }
+  .search-input:focus { outline: none; border-color: #555; }
   .filter-btn.active-pc { background: #ffffff; color: #e0e0e0; border-color: #555; }
   .filter-btn.active-ps5 { background: #0a2a6e; color: #8FB8F0; border-color: #1E5BC6; }
   .filter-btn.active-xbox { background: #1a3a0a; color: #97C459; border-color: #639922; }
@@ -73,6 +83,11 @@
   .social-links .fa-instagram:hover { color: #E4405F; }
   .social-links .fa-tiktok:hover { color: #25F4EE; }
   .social-links .fa-twitch:hover { color: #9146FF; }
+  .share-btn {
+    background: none; border: none; color: #888; font-size: 32px;
+    cursor: pointer; transition: all 0.2s ease; padding: 0;
+  }
+  .share-btn:hover { transform: scale(1.15); color: #f5d10a; }
   .eneba-wrap {
     display: flex;
     justify-content: center;
@@ -116,6 +131,10 @@
   <a href="https://twitch.tv/varsynn" target="_blank" aria-label="Twitch">
     <i class="fab fa-twitch"></i>
   </a>
+
+  <button class="share-btn" onclick="shareCalendar()" aria-label="Compartir calendario">
+    <i class="fas fa-share-nodes"></i>
+  </button>
 </div>
 
 <div class="eneba-wrap">
@@ -128,6 +147,7 @@
 <div class="month-nav">
   <button class="nav-btn" onclick="changeMonth(-1)">&#8592;</button>
   <span class="month-title" id="month-title"></span>
+  <button class="nav-btn" id="today-btn" onclick="goToToday()">Hoy</button>
   <button class="nav-btn" onclick="changeMonth(1)">&#8594;</button>
 </div>
 
@@ -137,6 +157,7 @@
   <button class="filter-btn" id="btn-ps5" onclick="toggleFilter('ps5')">🎮 PS5</button>
   <button class="filter-btn" id="btn-xbox" onclick="toggleFilter('xbox')">🟢 Xbox</button>
   <button class="filter-btn" id="btn-switch" onclick="toggleFilter('switch')">🔴 Switch</button>
+  <input type="text" id="search-input" class="search-input" placeholder="🔍 Buscar juego..." oninput="onSearchInput()">
 </div>
 
 <div class="legend">
@@ -162,6 +183,15 @@ const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto
 // link: URL de la tienda (opcional)
 // =============================================
 const games = {
+
+  '2026-11-19': [
+{title:'Grand Theft Auto VI', platforms:['ps5', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cocaa5.webp', free:false, link:'https://www.rockstargames.com/VI'} 
+  ],
+
+ '2026-09-15': [
+{title:'Marvel's Wolverine', platforms:['ps5'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cob5mk.webp', free:false, link:'https://www.playstation.com/es-es/games/marvels-wolverine/'}  
+ ],
+ 
  '2026-07-10': [
 {title:'Digimon Story Time Stranger', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coakzr.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Juegos-de-Nintendo-Switch-2/Digimon-Story-Time-Stranger-3016718.html?srsltid=AfmBOooijmherVwvxCGDd7YcuZr2rLV1OLF97sg5Uhb0Mq9HBcoP9kgD'} 
  ],
@@ -231,8 +261,9 @@ const games = {
 
 };
 
-let currentYear = 2026;
-let currentMonth = 5;
+const todayDate = new Date();
+let currentYear = todayDate.getFullYear();
+let currentMonth = todayDate.getMonth();
 let activeFilters = new Set();
 
 function toggleFilter(p) {
@@ -257,6 +288,24 @@ function changeMonth(dir) {
   renderCalendar();
 }
 
+function shareCalendar() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'Calendario de Lanzamientos – ofertasspeedrun', url: url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Enlace copiado al portapapeles');
+    });
+  }
+}
+
+function goToToday() {
+  const now = new Date();
+  currentYear = now.getFullYear();
+  currentMonth = now.getMonth();
+  renderCalendar();
+}
+
 function getFirstDayOfWeek(year, month) {
   let d = new Date(year, month, 1).getDay();
   return d === 0 ? 6 : d - 1;
@@ -272,6 +321,30 @@ function gameMatchesFilter(game) {
   if (activeFilters.size === 0) return true;
   return game.platforms.some(p => activeFilters.has(p));
 }
+
+function gameMatchesSearch(game) {
+  const term = document.getElementById('search-input').value.trim().toLowerCase();
+  if (!term) return true;
+  return game.title.toLowerCase().includes(term);
+}
+
+function onSearchInput() {
+  const term = document.getElementById('search-input').value.trim().toLowerCase();
+  if (term) {
+    const dates = Object.keys(games).sort();
+    for (const dateKey of dates) {
+      const match = games[dateKey].some(g => g.title.toLowerCase().includes(term));
+      if (match) {
+        const [y, m] = dateKey.split('-').map(Number);
+        currentYear = y;
+        currentMonth = m - 1;
+        break;
+      }
+    }
+  }
+  renderCalendar();
+}
+
 
 function renderCalendar() {
   document.getElementById('month-title').textContent = MONTHS[currentMonth] + ' ' + currentYear;
@@ -324,10 +397,10 @@ function renderCalendar() {
 
         const dateKey = currentYear + '-' + pad(currentMonth+1) + '-' + pad(d);
         const dayGames = games[dateKey] || [];
-        const filtered = dayGames.filter(gameMatchesFilter);
+        const filtered = dayGames.filter(g => gameMatchesFilter(g) && gameMatchesSearch(g));
         if (filtered.length > 0) cell.classList.add('games-' + Math.min(filtered.length, 3));
 
-        if (filtered.length === 0 && dayGames.length > 0 && activeFilters.size > 0) {
+        if (filtered.length === 0 && dayGames.length > 0 && (activeFilters.size > 0 || document.getElementById('search-input').value.trim())) {
           const ng = document.createElement('div');
           ng.className = 'no-games';
           ng.textContent = '—';
@@ -411,7 +484,7 @@ renderCalendar();
   .epic-badge { background: #222; color: #bbb; border: 1px solid #3a3a3a; }
 </style>
 
-<div class="free-section">
+<div class="free-section" id="free-section">
   <h2>🎁 Gratis ahora</h2>
   <p class="free-sub">Juegos que puedes conseguir gratis en este momento</p>
 
@@ -476,15 +549,22 @@ function renderFreeCard(g, badge, index) {
 }
 
 function renderFreeNow() {
-  if (steamFree.length > 0) {
+  const now = new Date();
+  const steamActive = steamFree.filter(g => !g.deadline || new Date(g.deadline) > now);
+  const epicActive = epicFree.filter(g => !g.deadline || new Date(g.deadline) > now);
+
+  if (steamActive.length > 0) {
     document.getElementById('block-steam').style.display = 'block';
     var c = document.getElementById('steam-free-list');
-    steamFree.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'steam', i); });
+    steamActive.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'steam', i); });
   }
-  if (epicFree.length > 0) {
+  if (epicActive.length > 0) {
     document.getElementById('block-epic').style.display = 'block';
     var c = document.getElementById('epic-free-list');
-    epicFree.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'epic', i); });
+    epicActive.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'epic', i); });
+  }
+  if (steamActive.length === 0 && epicActive.length === 0) {
+    document.getElementById('free-section').style.display = 'none';
   }
   updateCountdowns();
 }
