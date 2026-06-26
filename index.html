@@ -14,7 +14,7 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 1rem; }
-  .header-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0; }
+  .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; }
   .visit-counter { font-size: 14px; color: #888; text-align: right; padding-top: 4px; white-space: nowrap; font-weight: 500; }
   h1 { font-size: 1.3rem; font-weight: 500; margin-bottom: 0.25rem; color: #fff; }
   .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.25rem; }
@@ -72,8 +72,9 @@
   .social-links {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin: 1rem 0 1.5rem;
+    align-items: center;
+    gap: 16px;
+    margin: 0;
   }
   .social-links a {
     color: #888;
@@ -109,6 +110,8 @@
     transition: all 0.2s ease;
   }
   .eneba-banner:hover { border-color: #f7b731; color: #f7b731; background: #1f1d10; }
+  .show-more-btn { display:block; width:100%; margin-top:6px; background:#2a2a2a; border:1px solid #444; border-radius:6px; color:#bbb; font-size:11px; font-weight:600; padding:5px 0; cursor:pointer; }
+  .show-more-btn:hover { background:#333; color:#fff; border-color:#666; }
   @media (max-width: 600px) {
     .day-cell { min-height: 70px; padding: 4px; }
     .game-card img { height: 30px; }
@@ -124,33 +127,14 @@
     <h1>📅 Calendario de Lanzamientos</h1>
     <p class="subtitle">ofertasspeedrun · Actualizado semanalmente</p>
   </div>
+  <div class="social-links">
+    <a href="https://www.instagram.com/ofertasspeedrun" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@ofertasspeedrun" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    <a href="https://twitch.tv/varsynn" target="_blank" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+    <button class="share-btn" onclick="shareCalendar()" aria-label="Compartir"><i class="fas fa-share-nodes"></i></button>
+  </div>
   <div id="visit-counter" class="visit-counter"></div>
 </div>
- <div class="social-links">
-  <a href="https://www.instagram.com/ofertasspeedrun" target="_blank" aria-label="Instagram">
-    <i class="fab fa-instagram"></i>
-  </a>
-
-  <a href="https://www.tiktok.com/@ofertasspeedrun" target="_blank" aria-label="TikTok">
-    <i class="fab fa-tiktok"></i>
-  </a>
-
-  <a href="https://twitch.tv/varsynn" target="_blank" aria-label="Twitch">
-    <i class="fab fa-twitch"></i>
-  </a>
-
-  <button class="share-btn" onclick="shareCalendar()" aria-label="Compartir calendario">
-    <i class="fas fa-share-nodes"></i>
-  </button>
-</div>
-
-<div class="eneba-wrap">
-  <a class="eneba-banner" href="https://www.eneba.com/es/?af_id=borjaarzua01&utm_medium=infl&utm_source=borjaarzua01" target="_blank" rel="noopener">
-    <img src="https://static.eneba.games/branding/enebaLogoInverted.svg" alt="Eneba" style="height:24px;">
-    <span>🎮 Consigue juegos baratos con mi enlace de afiliado</span>
-  </a>
-</div>
-
 
 <div class="filters">
   <span>Filtrar por plataforma:</span>
@@ -158,6 +142,10 @@
   <button class="filter-btn" id="btn-ps5" onclick="toggleFilter('ps5')">🎮 PS5</button>
   <button class="filter-btn" id="btn-xbox" onclick="toggleFilter('xbox')">🟢 Xbox</button>
   <button class="filter-btn" id="btn-switch" onclick="toggleFilter('switch')">🔴 Switch</button>
+  <a class="eneba-banner" href="https://www.eneba.com/es/?af_id=borjaarzua01&utm_medium=infl&utm_source=borjaarzua01" target="_blank" rel="noopener" style="margin:0 auto;">
+    <img src="https://static.eneba.games/branding/enebaLogoInverted.svg" alt="Eneba" style="height:20px;">
+    <span>🎮 Consigue juegos baratos con mi enlace de afiliado</span>
+  </a>
   <input type="text" id="search-input" class="search-input" placeholder="🔍 Buscar juego..." oninput="onSearchInput()">
 </div>
 
@@ -201,10 +189,6 @@ const games = {
   {title:'WWE 2K25: WrestleMania 41 Pack', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3401620/e085c5b431b5bc990244519f3552301003319c86/header.jpg?t=1754324297', free:false, link:'https://store.steampowered.com/app/3401620/Pack_WWE_2K25_WrestleMania_41/?l=spanish'}
  ],
 
- '2026-06-27': [
-  {title:'Acorn Avengers', platforms:['pc', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9vwb.webp', free:false, link:'https://www.xbox.com/es-ES/games/store/acorn-avengers/'},
-  {title:'Cash Movers', platforms:['ps5', 'switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co9v3y.webp', free:false, link:'https://www.nintendo.com/es-es/'}
- ],
 
  '2026-06-26': [
   {title:'Death Run', platforms:['xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coca2c.webp', free:false, link:'https://www.xbox.com/es-AR/games/store/death-run-round-1/9NCCTF3HWWM3'},
@@ -457,19 +441,20 @@ function renderCalendar() {
           ng.textContent = '—';
           cell.appendChild(ng);
         } else {
-          filtered.forEach(g => {
+          const LIMIT = 4;
+          const visible = filtered.slice(0, LIMIT);
+          const hidden = filtered.slice(LIMIT);
+
+          function makeCard(g) {
             const card = document.createElement('div');
             card.className = 'game-card';
             if (g.link) { card.style.cursor = 'pointer'; card.onclick = () => window.open(g.link,'_blank'); }
-
             if (g.img) {
               const img = document.createElement('img');
-              img.src = g.img;
-              img.alt = g.title;
+              img.src = g.img; img.alt = g.title;
               img.onerror = function(){ this.style.display='none'; };
               card.appendChild(img);
             }
-
             const info = document.createElement('div');
             info.className = 'game-info';
             const title = document.createElement('div');
@@ -483,7 +468,6 @@ function renderCalendar() {
               info.appendChild(badge);
             }
             card.appendChild(info);
-
             const dots = document.createElement('div');
             dots.className = 'platform-dots';
             g.platforms.forEach(p => {
@@ -493,8 +477,29 @@ function renderCalendar() {
               dots.appendChild(dot);
             });
             card.appendChild(dots);
-            cell.appendChild(card);
-          });
+            return card;
+          }
+
+          visible.forEach(g => cell.appendChild(makeCard(g)));
+
+          if (hidden.length > 0) {
+            const extraWrap = document.createElement('div');
+            extraWrap.className = 'extra-games';
+            extraWrap.style.display = 'none';
+            hidden.forEach(g => extraWrap.appendChild(makeCard(g)));
+            cell.appendChild(extraWrap);
+
+            const moreBtn = document.createElement('button');
+            moreBtn.className = 'show-more-btn';
+            moreBtn.textContent = '+' + hidden.length + ' más';
+            moreBtn.onclick = function(e) {
+              e.stopPropagation();
+              const showing = extraWrap.style.display !== 'none';
+              extraWrap.style.display = showing ? 'none' : 'block';
+              moreBtn.textContent = showing ? '+' + hidden.length + ' más' : 'Ver menos';
+            };
+            cell.appendChild(moreBtn);
+          }
         }
       }
       row.appendChild(cell);
@@ -515,7 +520,7 @@ renderCalendar();
   .free-section h2 { font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
   .free-sub { font-size: 13px; color: #555; margin-bottom: 1.5rem; }
   .free-platform-block { margin-bottom: 2rem; }
-  .free-platform-title { font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; padding-bottom: 5px; border-bottom: 1px solid #222; }
+  .free-platform-title { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; padding-bottom: 8px; border-bottom: 1px solid #2a2a2a; display:flex; align-items:center; }
   .free-grid { display: flex; flex-wrap: wrap; gap: 20px; }
   .free-card {
     display: flex; flex-direction: column;
@@ -540,12 +545,12 @@ renderCalendar();
   <p class="free-sub">Juegos que puedes conseguir gratis en este momento</p>
 
   <div class="free-platform-block" id="block-steam" style="display:none">
-    <div class="free-platform-title">💻 Steam</div>
+    <div class="free-platform-title"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20" style="vertical-align:middle;margin-right:8px;fill:#66c0f4"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg><span style="color:#66c0f4;font-weight:700;font-size:15px;letter-spacing:.05em">STEAM</span></div>
     <div class="free-grid" id="steam-free-list"></div>
   </div>
 
   <div class="free-platform-block" id="block-epic" style="display:none">
-    <div class="free-platform-title">Epic Games Store</div>
+    <div class="free-platform-title"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20" style="vertical-align:middle;margin-right:8px;fill:#fff"><path d="M3.537 0C2.165 0 1.66.506 1.66 1.879V18.44a4.262 4.262 0 00.02.433c.031.3.037.59.316.92.027.033.311.245.311.245.153.075.258.13.43.2l8.335 3.491c.433.199.614.276.928.27h.002c.314.006.495-.071.928-.27l8.335-3.492c.172-.07.277-.124.43-.2 0 0 .284-.211.311-.243.28-.33.285-.621.316-.92a4.261 4.261 0 00.02-.434V1.879c0-1.373-.506-1.88-1.878-1.88zm13.366 3.11h.68c1.138 0 1.688.553 1.688 1.696v1.88h-1.374v-1.8c0-.369-.17-.54-.523-.54h-.235c-.367 0-.537.17-.537.539v5.81c0 .369.17.54.537.54h.262c.353 0 .523-.171.523-.54V8.619h1.373v2.143c0 1.144-.562 1.71-1.7 1.71h-.694c-1.138 0-1.7-.566-1.7-1.71V4.82c0-1.144.562-1.709 1.7-1.709zm-12.186.08h3.114v1.274H6.117v2.603h1.648v1.275H6.117v2.774h1.74v1.275h-3.14zm3.816 0h2.198c1.138 0 1.7.564 1.7 1.708v2.445c0 1.144-.562 1.71-1.7 1.71h-.799v3.338h-1.4zm4.53 0h1.4v9.201h-1.4zm-3.13 1.235v3.392h.575c.354 0 .523-.171.523-.54V4.965c0-.368-.17-.54-.523-.54zm-3.74 10.147a1.708 1.708 0 01.591.108 1.745 1.745 0 01.49.299l-.452.546a1.247 1.247 0 00-.308-.195.91.91 0 00-.363-.068.658.658 0 00-.28.06.703.703 0 00-.224.163.783.783 0 00-.151.243.799.799 0 00-.056.299v.008a.852.852 0 00.056.31.7.7 0 00.157.245.736.736 0 00.238.16.774.774 0 00.303.058.79.79 0 00.445-.116v-.339h-.548v-.565H7.37v1.255a2.019 2.019 0 01-.524.307 1.789 1.789 0 01-.683.123 1.642 1.642 0 01-.602-.107 1.46 1.46 0 01-.478-.3 1.371 1.371 0 01-.318-.455 1.438 1.438 0 01-.115-.58v-.008a1.426 1.426 0 01.113-.57 1.449 1.449 0 01.312-.46 1.418 1.418 0 01.474-.309 1.58 1.58 0 01.598-.111 1.708 1.708 0 01.045 0zm11.963.008a2.006 2.006 0 01.612.094 1.61 1.61 0 01.507.277l-.386.546a1.562 1.562 0 00-.39-.205 1.178 1.178 0 00-.388-.07.347.347 0 00-.208.052.154.154 0 00-.07.127v.008a.158.158 0 00.022.084.198.198 0 00.076.066.831.831 0 00.147.06c.062.02.14.04.236.061a3.389 3.389 0 01.43.122 1.292 1.292 0 01.328.17.678.678 0 01.207.24.739.739 0 01.071.337v.008a.865.865 0 01-.081.382.82.82 0 01-.229.285 1.032 1.032 0 01-.353.18 1.606 1.606 0 01-.46.061 2.16 2.16 0 01-.71-.116 1.718 1.718 0 01-.593-.346l.43-.514c.277.223.578.335.9.335a.457.457 0 00.236-.05.157.157 0 00.082-.142v-.008a.15.15 0 00-.02-.077.204.204 0 00-.073-.066.753.753 0 00-.143-.062 2.45 2.45 0 00-.233-.062 5.036 5.036 0 01-.413-.113 1.26 1.26 0 01-.331-.16.72.72 0 01-.222-.243.73.73 0 01-.082-.36v-.008a.863.863 0 01.074-.359.794.794 0 01.214-.283 1.007 1.007 0 01.34-.185 1.423 1.423 0 01.448-.066 2.006 2.006 0 01.025 0zm-9.358.025h.742l1.183 2.81h-.825l-.203-.499H8.623l-.198.498h-.81zm2.197.02h.814l.663 1.08.663-1.08h.814v2.79h-.766v-1.602l-.711 1.091h-.016l-.707-1.083v1.593h-.754zm3.469 0h2.235v.658h-1.473v.422h1.334v.61h-1.334v.442h1.493v.658h-2.255zm-5.3.897l-.315.793h.624zm-1.145 5.19h8.014l-4.09 1.348z"/></svg><span style="color:#fff;font-weight:700;font-size:15px;letter-spacing:.05em">EPIC GAMES</span></div>
     <div class="free-grid" id="epic-free-list"></div>
   </div>
 </div>
@@ -572,8 +577,8 @@ const steamFree = [
 // EPIC — añade o quita juegos según haya ofertas
 // Formato: { title: 'Nombre', img: 'URL_imagen', link: 'URL_tienda', deadline: 'YYYY-MM-DDTHH:MM:SS' (hora de España) }
 const epicFree = [
-  { title: 'Voidwrought', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2014550/header.jpg?t=1782215852', link: 'https://store.epicgames.com/p/voidwrought-ce8f4b', deadline: '2026-07-02T17:00:00' },
-  { title: 'RollerCoaster Tycoon 3', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1368820/header.jpg?t=1779306991', link: 'https://store.epicgames.com/p/rollercoaster-tycoon-3-complete-edition', deadline: '2026-07-02T17:00:00' },
+  { title: 'Voidwrought', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2014550/header.jpg?t=1782215852', link: 'https://store.epicgames.com/p/voidwrought-ce8f4b', deadline: '2026-07-03T17:00:00' },
+  { title: 'RollerCoaster Tycoon 3', img: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1368820/header.jpg?t=1779306991', link: 'https://store.epicgames.com/p/rollercoaster-tycoon-3-complete-edition', deadline: '2026-07-03T17:00:00' },
 ];
 
 // =============================================
