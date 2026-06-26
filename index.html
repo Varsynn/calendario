@@ -34,6 +34,9 @@
   .filter-btn.active-xbox { background: #1a3a0a; color: #97C459; border-color: #639922; }
   .filter-btn.active-switch { background: #4a0a0a; color: #FF8A8A; border-color: #E60012; }
   .week-block { margin-bottom: 1.25rem; }
+  /* En desktop, day-header-mobile y games-container-mobile se muestran en bloque normal */
+  .day-header-mobile { display: block; }
+  .games-container-mobile { display: block; }
   .week-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid #222; }
   .days-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
   .day-cell { border: 1px solid #222; border-radius: 8px; padding: 6px; min-height: 90px; background: #1a1a1a; }
@@ -113,9 +116,57 @@
   .show-more-btn { display:block; width:100%; margin-top:6px; background:#2a2a2a; border:1px solid #444; border-radius:6px; color:#bbb; font-size:11px; font-weight:600; padding:5px 0; cursor:pointer; }
   .show-more-btn:hover { background:#333; color:#fff; border-color:#666; }
   @media (max-width: 600px) {
-    .day-cell { min-height: 70px; padding: 4px; }
-    .game-card img { height: 30px; }
-    .game-title { font-size: 8px; }
+    /* Layout vertical en móvil: un día por fila */
+    .days-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .day-cell {
+      min-height: unset;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .day-cell.empty { display: none; }
+    /* Cabecera del día (nombre + número) */
+    .day-header-mobile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 38px;
+      padding-top: 2px;
+    }
+    .day-name { font-size: 11px; color: #666; margin-bottom: 2px; }
+    .day-num  { font-size: 18px; color: #aaa; font-weight: 600; margin-bottom: 0; }
+    /* Contenedor de juegos en horizontal scroll */
+    .games-container-mobile {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      overflow-x: auto;
+      flex: 1;
+      padding-bottom: 4px;
+    }
+    .games-container-mobile::-webkit-scrollbar { height: 3px; }
+    .games-container-mobile::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+    /* Tarjeta de juego en móvil */
+    .game-card {
+      flex: 0 0 auto;
+      width: 110px;
+      border-radius: 8px;
+    }
+    .game-card img { height: 58px; width: 110px; object-fit: cover; }
+    .games-1 .game-card img,
+    .games-2 .game-card img,
+    .games-3 .game-card img { height: 58px; }
+    .game-title { font-size: 10px; }
+    /* Botón mostrar más en móvil */
+    .show-more-btn { width: auto; flex: 0 0 auto; align-self: center; padding: 6px 10px; font-size: 11px; }
+    /* Ocultar no-games si la celda queda vacía */
+    .day-cell .no-games { padding-top: 4px; }
   }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -420,26 +471,36 @@ function renderCalendar() {
           cell.classList.add('today');
         }
 
+        // Cabecera del día (nombre + número) — usada en desktop y móvil
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'day-header-mobile';
+
         const dayName = document.createElement('div');
         dayName.className = 'day-name';
         dayName.textContent = DAYS[i];
-        cell.appendChild(dayName);
+        dayHeader.appendChild(dayName);
 
         const dayNum = document.createElement('div');
         dayNum.className = 'day-num';
         dayNum.textContent = d;
-        cell.appendChild(dayNum);
+        dayHeader.appendChild(dayNum);
+
+        cell.appendChild(dayHeader);
 
         const dateKey = currentYear + '-' + pad(currentMonth+1) + '-' + pad(d);
         const dayGames = games[dateKey] || [];
         const filtered = dayGames.filter(g => gameMatchesFilter(g) && gameMatchesSearch(g));
         if (filtered.length > 0) cell.classList.add('games-' + Math.min(filtered.length, 3));
 
+        // Contenedor de juegos (en móvil se vuelve scroll horizontal)
+        const gamesContainer = document.createElement('div');
+        gamesContainer.className = 'games-container-mobile';
+
         if (filtered.length === 0 && dayGames.length > 0 && (activeFilters.size > 0 || document.getElementById('search-input').value.trim())) {
           const ng = document.createElement('div');
           ng.className = 'no-games';
           ng.textContent = '—';
-          cell.appendChild(ng);
+          gamesContainer.appendChild(ng);
         } else {
           const LIMIT = 4;
           const visible = filtered.slice(0, LIMIT);
@@ -480,14 +541,14 @@ function renderCalendar() {
             return card;
           }
 
-          visible.forEach(g => cell.appendChild(makeCard(g)));
+          visible.forEach(g => gamesContainer.appendChild(makeCard(g)));
 
           if (hidden.length > 0) {
             const extraWrap = document.createElement('div');
             extraWrap.className = 'extra-games';
             extraWrap.style.display = 'none';
             hidden.forEach(g => extraWrap.appendChild(makeCard(g)));
-            cell.appendChild(extraWrap);
+            gamesContainer.appendChild(extraWrap);
 
             const moreBtn = document.createElement('button');
             moreBtn.className = 'show-more-btn';
@@ -495,12 +556,13 @@ function renderCalendar() {
             moreBtn.onclick = function(e) {
               e.stopPropagation();
               const showing = extraWrap.style.display !== 'none';
-              extraWrap.style.display = showing ? 'none' : 'block';
+              extraWrap.style.display = showing ? 'none' : 'flex';
               moreBtn.textContent = showing ? '+' + hidden.length + ' más' : 'Ver menos';
             };
-            cell.appendChild(moreBtn);
+            gamesContainer.appendChild(moreBtn);
           }
         }
+        cell.appendChild(gamesContainer);
       }
       row.appendChild(cell);
     }
@@ -538,11 +600,20 @@ renderCalendar();
   .free-card-badge { font-size: 13px; font-weight: 700; border-radius: 6px; padding: 4px 10px; display: inline-block; width: fit-content; margin-top: auto; }
   .steam-badge { background: #1b2838; color: #66c0f4; border: 1px solid #2a475e; }
   .epic-badge { background: #222; color: #bbb; border: 1px solid #3a3a3a; }
+  .psn-badge { background: #00274e; color: #6fa8dc; border: 1px solid #00439C; }
 </style>
 
 <div class="free-section" id="free-section">
   <h2>🎁 Gratis ahora</h2>
   <p class="free-sub">Juegos que puedes conseguir gratis en este momento</p>
+
+  <div class="free-platform-block" id="block-psn" style="display:none">
+    <div class="free-platform-title">
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20" style="vertical-align:middle;margin-right:8px;fill:#00439C"><path d="M8.984 2.596v14.08l3.76 1.188V6.445c0-.676.3-1.152.78-.998.612.18.736.806.736 1.48v5.82c1.972.94 3.856-.14 3.856-3.144 0-3.08-1.06-4.512-4.136-5.596-1.044-.36-2.756-.82-3.996-1.412zM2 17.428l5.696 1.96v-2.96l-2.82-.94v-.016l2.82.82V13.3L2 11.34v6.088zm17.896-5.592c-1.96-.56-2.592-.84-2.592-1.68 0-.756.532-1.008 1.4-.784 0 0 2.82.84 4.296 1.68V8.96c-1.648-.52-3.3-.904-4.952-.904-3.36 0-5.248 1.4-5.248 4.172 0 2.688 1.736 3.5 4.704 4.34 1.708.504 2.228.84 2.228 1.624 0 .868-.672 1.092-1.68 1.092-1.68 0-4.032-.98-5.46-2.016v3.04c1.288.728 3.38 1.512 5.46 1.512 3.388 0 5.516-1.316 5.516-4.256 0-2.632-1.624-3.5-3.672-4.116z"/></svg>
+      <span style="color:#00439C;font-weight:700;font-size:15px;letter-spacing:.05em">PLAYSTATION</span>
+    </div>
+    <div class="free-grid" id="psn-free-list"></div>
+  </div>
 
   <div class="free-platform-block" id="block-steam" style="display:none">
     <div class="free-platform-title"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20" style="vertical-align:middle;margin-right:8px;fill:#66c0f4"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg><span style="color:#66c0f4;font-weight:700;font-size:15px;letter-spacing:.05em">STEAM</span></div>
@@ -567,6 +638,14 @@ renderCalendar();
 // GRATIS AHORA — edita estas listas cada semana
 // Si no hay juegos, deja el array vacío: []
 // =============================================
+
+// PSN (PlayStation Plus / gratuitos) — añade o quita juegos según haya ofertas
+// Formato: { title: 'Nombre', img: 'URL_imagen', link: 'URL_tienda', deadline: 'YYYY-MM-DDTHH:MM:SS' }
+const psnFree = [
+  { title: 'Grounded: Fully Yoked Edition', img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co835s.webp', link: 'https://www.playstation.com/es-es/games/grounded/' , deadline: '2026-07-07T10:00:00' },
+  { title: 'Nickelodeon All-Star Brawl 2', img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co756t.webp', link: 'https://www.playstation.com/es-es/games/nickelodeon-all-star-brawl-2/' , deadline: '2026-07-07T10:00:00' },
+  { title: 'Warhammer 40,000: Darktide', img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co5j6u.webp', link: 'https://www.playstation.com/es-es/games/warhammer-40000-darktide/' , deadline: '2026-07-07T10:00:00' },
+];
 
 // STEAM — añade o quita juegos según haya ofertas
 // Formato: { title: 'Nombre', img: 'URL_imagen', link: 'URL_tienda', deadline: 'YYYY-MM-DDTHH:MM:SS' (hora de España) }
@@ -596,20 +675,33 @@ function formatRemaining(ms) {
 }
 
 function renderFreeCard(g, badge, index) {
-  return '<a href="' + g.link + '" target="_blank" class="free-card">' +
-    '<img src="' + g.img + '" alt="' + g.title + '" onerror="this.style.display=\'none\'">' +
+  const imgTag = g.img
+    ? '<img src="' + g.img + '" alt="' + g.title + '" onerror="this.style.display=\'none\'">'
+    : '<div style="width:100%;height:161px;background:#1e1e1e;display:flex;align-items:center;justify-content:center;color:#444;font-size:12px;">Sin imagen</div>';
+  const cardStart = g.link
+    ? '<a href="' + g.link + '" target="_blank" class="free-card">'
+    : '<div class="free-card" style="opacity:0.7">';
+  const cardEnd = g.link ? '</a>' : '</div>';
+  return cardStart +
+    imgTag +
     '<div class="free-card-body">' +
       '<div class="free-card-title">' + g.title + '</div>' +
       (g.deadline ? '<div class="free-card-until" data-deadline="' + g.deadline + '" id="' + badge + '-timer-' + index + '"></div>' : '') +
       '<span class="free-card-badge ' + badge + '-badge">' + badge.toUpperCase() + '</span>' +
-    '</div></a>';
+    '</div>' + cardEnd;
 }
 
 function renderFreeNow() {
   const now = new Date();
+  const psnActive = psnFree.filter(g => !g.deadline || new Date(g.deadline) > now);
   const steamActive = steamFree.filter(g => !g.deadline || new Date(g.deadline) > now);
   const epicActive = epicFree.filter(g => !g.deadline || new Date(g.deadline) > now);
 
+  if (psnActive.length > 0) {
+    document.getElementById('block-psn').style.display = 'block';
+    var c = document.getElementById('psn-free-list');
+    psnActive.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'psn', i); });
+  }
   if (steamActive.length > 0) {
     document.getElementById('block-steam').style.display = 'block';
     var c = document.getElementById('steam-free-list');
@@ -620,7 +712,7 @@ function renderFreeNow() {
     var c = document.getElementById('epic-free-list');
     epicActive.forEach(function(g, i) { c.innerHTML += renderFreeCard(g, 'epic', i); });
   }
-  if (steamActive.length === 0 && epicActive.length === 0) {
+  if (psnActive.length === 0 && steamActive.length === 0 && epicActive.length === 0) {
     document.getElementById('free-section').style.display = 'none';
   }
   updateCountdowns();
