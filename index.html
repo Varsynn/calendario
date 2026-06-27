@@ -227,13 +227,39 @@ const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto
 // link: URL de la tienda (opcional)
 // =============================================
 const games = {
+ 
+  '2027-02-23': [
+{title:'Fable', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2769570/d2ffd7e15a91f3e5485601d3d876988ba3a859d7/header.jpg', free:false, link:'https://www.fablethegame.com/'} 
+  ],
 
+  '2027-02-18': [
+{title:'Persona 4 Revival', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2963950/e83b7da1c2e9ddbed1a27038bd86e9714b2aa893/header.jpg', free:false, link:'https://www.sega.com/persona/persona-4-revival'}, 
+{title:'Fable Premium Edition', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2769570/d2ffd7e15a91f3e5485601d3d876988ba3a859d7/header.jpg', free:false, link:'https://www.fablethegame.com/'}  
+  ],
+ 
   '2027-02-12': [
 {title:'Tomb Raider: Legacy of Atlantis', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3558670/d0d4229807e9bd939c2374cb94a1264aa1386398/header.jpg?t=1780440913', free:false, link:'https://www.tombraider.com/products/games/tomb-raider-legacy-of-atlantis'} 
   ],
 
+    '2027-01-21': [
+{title:'Wandering Sword', platforms:['ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1876890/44686407cf63ce1c05c9fe3bd07e0df55307bd01/header.jpg', free:false, link:'https://www.spiralupgames.com/projects/wandering-sword'} 
+  ],
+
+   '2027-01-15': [
+{title:'STRANGER THAN HEAVEN', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4260840/3e40b76faf9a3eafb4397dd51308eb2e48ac3660/header.jpg', free:false, link:'https://stranger-than-heaven.com/'} 
+  ],
+
+   '2026-12-03': [
+{title:'DRAGON QUEST MONSTERS The Withered World', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3681610/b9aef398ba1695e8a4873626419524b2c37d6c0f/header_spanish.jpg', free:false, link:'https://es.store.square-enix-games.com/dragon-quest-monsters-the-withered-world'} 
+  ],
+
    '2026-11-19': [
 {title:'Grand Theft Auto VI', searchTerms:'GTA GTA6 GTA VI', platforms:['ps5', 'xbox'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cocaa5.webp', free:false, link:'https://www.rockstargames.com/VI'} 
+  ],
+
+   '2026-11-12': [
+{title:'Metaphor: ReFantazio', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2679460/header.jpg', free:false, link:'https://www.sega.com/es/metaphor/metaphor-refantazio'},
+{title:'Barbie™ Rewind', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4082030/58beeb27ced499b9010c24cbc8c6ee0c24e67cad/header.jpg', free:false, link:'https://atari.com/products/barbie-rewind-game-doll'} 
   ],
 
   '2026-11-06': [
@@ -255,7 +281,7 @@ const games = {
   ],
 
    '2026-10-29': [
-{title:'Phantom Blade Zero', platforms:['pc', 'ps5'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4115450/5930310dc5f043a1df400d9dc70ddb43843480fc/header.jpg', free:false, link:'https://pbz.s-game.com/es-ES/'} 
+{title:'Phantom Blade Zero', platforms:['pc', 'ps5'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4115450/5930310dc5f043a1df400d9dc70ddb43843480fc/header.jpg', free:false, link:'https://pbz.s-game.com/'} 
   ],
 
  '2026-10-29': [
@@ -281,12 +307,12 @@ const games = {
   ],
  
  '2026-10-15': [
-{title:"Castlevania: Belmont's Curse", platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4231820/6b65aec2c398006aea8b76e1463cc34d0e4ba68b/header.jpg', free:false, link:'https://www.konami.com/games/castlevania/belmonts_curse/eu/es/'},
+{title:"Castlevania: Belmont's Curse", platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4231820/6b65aec2c398006aea8b76e1463cc34d0e4ba68b/header.jpg', free:false, link:'https://www.konami.com/games/castlevania/belmonts_curse/'},
 {title:'Disney•Pixar Toy Story: Retro Roundup!', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4049170/678f17396b23817c2b9a61deff6aa067b6b28a8a/header.jpg', free:false, link:'https://store.steampowered.com/app/4049170/DisneyoPixar_Toy_Story_Retro_Roundup/'} 
   ],
  
  '2026-10-13': [
-{title:'Planet Zoo 2', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3219030/a5131aa4b84d04a55e3b9c561d7c886cc22bbe1c/header.jpg', free:false, link:'https://www.planetzoogame.com/es-ES'},
+{title:'Planet Zoo 2', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3219030/a5131aa4b84d04a55e3b9c561d7c886cc22bbe1c/header.jpg', free:false, link:'https://www.planetzoogame.com/'},
 {title:'Valor Mortis', platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2828710/084d2f8938429f6c634fccc18b5156b9d05365d8/header_alt_assets_2.jpg', free:false, link:'https://valormortis.game/'} 
   ],
 
@@ -320,7 +346,7 @@ const games = {
  ],
  
 '2026-09-25': [
-{title:'Onimusha: Way of the Sword', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2638890/ce31174fea86d0bafa21b26e853dcd0b7326e36f/header.jpg', free:false, link:'https://www.capcom-games.com/onimusha/ws/es/'}  
+{title:'Onimusha: Way of the Sword', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2638890/ce31174fea86d0bafa21b26e853dcd0b7326e36f/header.jpg', free:false, link:'https://www.capcom-games.com/onimusha/ws/'}  
  ],
  
  '2026-09-24': [
@@ -356,7 +382,7 @@ const games = {
 
 
  '2026-07-23': [
-    {title:'Dinoblade', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3440070/d3bb8fe273de5f89504044835ff413c938552ed4/header.jpg', free:false, link:'https://store.steampowered.com/app/3440070/Dinoblade/?l=spanish'},
+    {title:'Dinoblade', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3440070/d3bb8fe273de5f89504044835ff413c938552ed4/header.jpg', free:false, link:'https://store.steampowered.com/app/3440070/Dinoblade/'},
     {title:'DragonSword Awakening', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4570720/96a897e98f4472e656fbe6681191b3066cab6056/header.jpg', free:false, link:'https://store.steampowered.com/app/4570720/DragonSword__Awakening/'},
     {title:'Avatar Legends The Final Battle', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2424420/4c6170c42e43867a13b16b2d7431f30434d420bb/header.jpg', free:false, link:'https://store.steampowered.com/app/2424420/Avatar_Legends_The_Fighting_Game/'}
  ],
@@ -396,7 +422,7 @@ const games = {
 {title:"Assassin's Creed Black Flag Resynced", platforms:['pc', 'ps5', 'xbox'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3751950/9b046115b1663a4be2b252712328e4f6c162da68/header.jpg', free:false, link:'https://www.ubisoft.com/es-es/game/assassins-creed/black-flag-resynced'},
 {title:'Backyard Baseball', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3935020/10ae84de59688050a1140103c1ecdbf987d8aeea/header.jpg', free:false, link:'https://store.steampowered.com/app/3935020/Backyard_Baseball/'},
 {title:'Forward to the Sky', platforms:['ps5'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/333250/header.jpg', free:false, link:'https://store.playstation.com/es-pe/concept/10010177'},
-{title:'Granblue Fantasy: Relink - Endless Ragnarok', platforms:['pc', 'ps5', 'switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cobft8.webp', free:false, link:'https://relink-ragnarok.granbluefantasy.com/es/'}
+{title:'Granblue Fantasy: Relink - Endless Ragnarok', platforms:['pc', 'ps5', 'switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/cobft8.webp', free:false, link:'https://relink-ragnarok.granbluefantasy.com/'}
 
  ],
 
@@ -412,7 +438,7 @@ const games = {
 
  '2026-07-06': [
   {title:'Cat Mail Co', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4380490/9c206d8a7c8a6133230628b6326f4f08a683b40e/header.jpg', free:false, link:'https://store.steampowered.com/app/4380490/Cat_Mail_Co/'},
-  {title:'Esports Manager 2026', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2749950/c996835deb9fd4b481b498f10c0c85ecc8725986/header.jpg', free:false, link:'https://store.steampowered.com/app/2749950/Esports_Manager_2026/?l=spanish'}
+  {title:'Esports Manager 2026', platforms:['pc'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2749950/c996835deb9fd4b481b498f10c0c85ecc8725986/header.jpg', free:false, link:'https://store.steampowered.com/app/2749950/Esports_Manager_2026/'}
  ],
  
   '2026-07-03': [
@@ -463,7 +489,7 @@ const games = {
   {title:'Citizen Sleeper 2: Starward Vector', platforms:['switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2442460/header.jpg', free:false, link:'https://www.nintendo.com/es-es/Juegos/Nintendo-Switch-2-Edition/Citizen-Sleeper-2-Starward-Vector-Nintendo-Switch-2-Edition-3116399.html'},
   {title:'RACE Rocket Arena Car Extreme', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/co66dt.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/RACE-Rocket-Arena-Car-Extreme-3092336.html'},
   {title:'Death Run', platforms:['switch'], img:'https://images.igdb.com/igdb/image/upload/t_cover_big/coca2c.webp', free:false, link:'https://www.nintendo.com/es-es/Juegos/Programas-descargables-Nintendo-Switch/Death-Run-3124750.html'},
-  {title:'WWE 2K25: WrestleMania 41 Pack', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3401620/e085c5b431b5bc990244519f3552301003319c86/header.jpg', free:false, link:'https://store.steampowered.com/app/3401620/Pack_WWE_2K25_WrestleMania_41/?l=spanish'}
+  {title:'WWE 2K25: WrestleMania 41 Pack', platforms:['pc', 'ps5', 'xbox', 'switch'], img:'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3401620/e085c5b431b5bc990244519f3552301003319c86/header.jpg', free:false, link:'https://store.steampowered.com/app/3401620/Pack_WWE_2K25_WrestleMania_41/'}
  ],
 
 
