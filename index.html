@@ -3,13 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calendario de Lanzamientos – ofertasspeedrun</title>
-<meta name="description" content="Calendario semanal de lanzamientos de videojuegos para PC, PS5, Xbox y Switch, con juegos gratis destacados de Steam y Epic Games.">
-<meta property="og:title" content="Calendario de Lanzamientos – ofertasspeedrun">
-<meta property="og:description" content="Consulta los próximos lanzamientos de videojuegos por plataforma y entérate de qué juegos están gratis ahora mismo.">
+<title>Calendario de Lanzamientos de Videojuegos – ofertasspeedrun</title>
+<meta name="description" content="Consulta los próximos lanzamientos de videojuegos para PC, PS5, Xbox y Nintendo Switch. Incluye juegos gratis de Steam y Epic Games Store esta semana. Actualizado semanalmente por ofertasspeedrun.">
+<meta name="keywords" content="calendario lanzamientos videojuegos, juegos gratis Steam, juegos gratis Epic Games, lanzamientos PS5, lanzamientos PC, lanzamientos Switch, ofertas videojuegos, juegos gratis esta semana">
+<meta name="author" content="Varsyn de ofertasspeedrun">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://varsynn.github.io/calendario/">
+<meta property="og:title" content="Calendario de Lanzamientos de Videojuegos – ofertasspeedrun">
+<meta property="og:description" content="Próximos lanzamientos de videojuegos para PC, PS5, Xbox y Switch. Juegos gratis de Steam y Epic Games actualizados cada semana.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="PON_AQUI_LA_URL_DE_TU_IMAGEN_DE_PORTADA">
+<meta property="og:url" content="https://varsynn.github.io/calendario/">
+<meta property="og:image" content="https://varsynn.github.io/calendario/preview.jpg">
+<meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calendario de Lanzamientos de Videojuegos">
+<meta name="twitter:description" content="Próximos lanzamientos de videojuegos + juegos gratis de Steam y Epic Games. Actualizado semanalmente.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -168,6 +176,26 @@
   }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Calendario de Lanzamientos de Videojuegos – ofertasspeedrun",
+  "url": "https://varsynn.github.io/calendario/",
+  "description": "Calendario de lanzamientos de videojuegos para PC, PS5, Xbox y Switch con juegos gratis de Steam y Epic Games.",
+  "author": {
+    "@type": "Person",
+    "name": "Varsyn de ofertasspeedrun",
+    "sameAs": [
+      "https://www.instagram.com/ofertasspeedrun",
+      "https://www.tiktok.com/@ofertasspeedrun",
+      "https://twitch.tv/varsynn"
+    ]
+  },
+  "inLanguage": "es-ES"
+}
+</script>
 </head>
 <body>
 
@@ -690,6 +718,7 @@ function onSearchInput() {
       }
     }
   }
+  // Al borrar la búsqueda se mantiene el mes actual — no reseteamos currentMonth
   renderCalendar();
 }
 
