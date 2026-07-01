@@ -23,6 +23,17 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 1rem; }
   .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; }
+  .nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #7070a0;
+    text-decoration: none;
+    transition: color 0.15s;
+    margin-bottom: 0.75rem;
+  }
+  .nav-back:hover { color: #e8e8f0; }
   .visit-counter { font-size: 14px; color: #888; text-align: right; padding-top: 4px; white-space: nowrap; font-weight: 500; }
   h1 { font-size: 1.3rem; font-weight: 500; margin-bottom: 0.25rem; color: #fff; }
   .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 1.25rem; }
@@ -211,6 +222,11 @@
 </script>
 </head>
 <body>
+
+<a href="https://varsynn.github.io/puede-mi-pc-correrlo/" class="nav-back">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  ¿Puede mi PC correrlo?
+</a>
 
 <div class="header-row">
   <div>
